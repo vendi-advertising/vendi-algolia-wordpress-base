@@ -1,0 +1,26 @@
+{
+  "name": "vendi-advertising/vendi-algolia-wordpress-base",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Vendi\\VendiAlgoliaWordpressBase\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": { "Vendi\\VendiAlgoliaWordpressBase\\Tests\\": "tests/" }
+  },
+  "authors": [
+    {
+      "name": "Chris Haas",
+      "email": "chris@vendiadvertising.com"
+    }
+  ],
+  "require": {
+    "php": "8.1.*|8.2.*"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^6.3",
+    "phpunit/phpunit": "^10.4"
+  }
+}

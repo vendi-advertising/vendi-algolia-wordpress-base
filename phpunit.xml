@@ -1,0 +1,7 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="Vendi Algolia WordPress Base">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
