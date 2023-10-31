@@ -5,30 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5d90885-5794-4886-a4de-d81ea230d9de" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeception.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/phpunit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Attribute/SerializeAttribute.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Attribute/SerializeDateTimeAttribute.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Attribute/SerializeFunctionAttribute.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/BaseObject.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/SerializableObjectWithId.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Enum/DateTimeSerializationFormatEnum.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/UnsupportedObjectNormalizerException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Normalizers/ArrayNormalizer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Normalizers/BackedEnumNormalizer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Normalizers/NormalizerInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Normalizers/NullNormalizer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Normalizers/ObjectNormalizer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Normalizers/ScalarNormalizer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Normalizers/UnitEnumNormalizer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/VendiObjectSerializer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Normalizers/NormalizerTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Normalizers/Normalizer__Supports__Test.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/phpunit.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalizers/ArrayNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/ArrayNormalizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalizers/BackedEnumNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/BackedEnumNormalizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalizers/NullNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/NullNormalizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalizers/ObjectNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/ObjectNormalizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalizers/ScalarNormalizer.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalizers/UnitEnumNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/UnitEnumNormalizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/VendiObjectSerializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/VendiObjectSerializer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Normalizers/NormalizerTest.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.4">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/vendor/symfony/string" />
@@ -114,29 +102,60 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary": "PHPUnit",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "F:/dev/vendi-algolia-wordpress-base",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "php.override.implement.member.chooser.php.doc": "NONE",
-    "settings.editor.selected.configurable": "web-ide.project.structure",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary&quot;: &quot;PHPUnit&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/dev/vendi-goal-tracking&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;web-ide.project.structure&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\dev\vendi-algolia-wordpress-base\tests\Normalizers" />
       <recent name="F:\dev\vendi-algolia-wordpress-base\tests" />
       <recent name="F:\dev\vendi-algolia-wordpress-base\src\Entities" />
     </key>
+  </component>
+  <component name="RunManager" selected="PHPUnit.VendiObjectSerializerTest.testInheritance">
+    <configuration name="VendiObjectSerializerTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Vendi\VendiAlgoliaWordpressBase\Tests\Service\VendiObjectSerializerTest" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Service/VendiObjectSerializerTest.php" scope="Class" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VendiObjectSerializerTest.testAllNormalizers" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Vendi\VendiAlgoliaWordpressBase\Tests\Service\VendiObjectSerializerTest" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Service/VendiObjectSerializerTest.php" method="testAllNormalizers" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VendiObjectSerializerTest.testGetAttributes" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Vendi\VendiAlgoliaWordpressBase\Tests\Service\VendiObjectSerializerTest" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Service/VendiObjectSerializerTest.php" method="testGetAttributes" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VendiObjectSerializerTest.testInheritance" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Vendi\VendiAlgoliaWordpressBase\Tests\Service\VendiObjectSerializerTest" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Service/VendiObjectSerializerTest.php" method="testInheritance" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VendiObjectSerializerTest.testSkipped" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Vendi\VendiAlgoliaWordpressBase\Tests\Service\VendiObjectSerializerTest" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Service/VendiObjectSerializerTest.php" method="testSkipped" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHPUnit.VendiObjectSerializerTest.testInheritance" />
+        <item itemvalue="PHPUnit.VendiObjectSerializerTest" />
+        <item itemvalue="PHPUnit.VendiObjectSerializerTest.testAllNormalizers" />
+        <item itemvalue="PHPUnit.VendiObjectSerializerTest.testSkipped" />
+        <item itemvalue="PHPUnit.VendiObjectSerializerTest.testGetAttributes" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -147,11 +166,19 @@
       <option name="presentableId" value="Default" />
       <updated>1698422634303</updated>
       <workItem from="1698422635347" duration="676000" />
-      <workItem from="1698423326053" duration="6543000" />
+      <workItem from="1698423326053" duration="21056000" />
+      <workItem from="1698787521220" duration="330000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/vendi_algolia_wordpress_base@VendiObjectSerializerTest.xml" NAME="VendiObjectSerializerTest Coverage Results" MODIFIED="1698696901184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -4,7 +4,7 @@ namespace Vendi\VendiAlgoliaWordpressBase\Normalizers;
 
 use Vendi\VendiAlgoliaWordpressBase\Service\VendiObjectSerializer;
 
-class ArrayNormalizer implements NormalizerInterface
+final class ArrayNormalizer implements NormalizerInterface
 {
     public function supports(mixed $value): bool
     {

@@ -4,15 +4,19 @@ namespace Vendi\VendiAlgoliaWordpressBase\Normalizers;
 
 use BackedEnum;
 
-class BackedEnumNormalizer implements NormalizerInterface
+final class BackedEnumNormalizer implements NormalizerInterface
 {
     public function supports(mixed $value): bool
     {
         return $value instanceof BackedEnum;
     }
 
-    public function normalize(mixed $value): mixed
+    /**
+     * @param BackedEnum $value
+     * @return string|int
+     */
+    public function normalize(mixed $value): string|int
     {
-        return $value->getBackedValue();
+        return $value->value;
     }
 }

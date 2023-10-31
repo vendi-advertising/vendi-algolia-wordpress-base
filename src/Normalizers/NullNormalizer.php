@@ -2,7 +2,7 @@
 
 namespace Vendi\VendiAlgoliaWordpressBase\Normalizers;
 
-class NullNormalizer implements NormalizerInterface
+final class NullNormalizer implements NormalizerInterface
 {
     public function supports(mixed $value): bool
     {

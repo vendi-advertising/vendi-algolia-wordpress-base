@@ -4,14 +4,14 @@ namespace Vendi\VendiAlgoliaWordpressBase\Normalizers;
 
 use DateTimeInterface;
 use JsonSerializable;
-use RuntimeException;
+use UnitEnum;
 use Vendi\VendiAlgoliaWordpressBase\Exception\UnsupportedObjectNormalizerException;
 
-class ObjectNormalizer implements NormalizerInterface
+final class ObjectNormalizer implements NormalizerInterface
 {
     public function supports(mixed $value): bool
     {
-        return is_object($value);
+        return is_object($value) && !$value instanceof UnitEnum;
     }
 
     public function normalize(mixed $value): mixed

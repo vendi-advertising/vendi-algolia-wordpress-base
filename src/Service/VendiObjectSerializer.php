@@ -12,10 +12,13 @@ use Vendi\VendiAlgoliaWordpressBase\Attribute\SerializeFunctionAttribute;
 use Vendi\VendiAlgoliaWordpressBase\Entity\BaseObject;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\ArrayNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\BackedEnumNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\BooleanNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\FloatNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\IntegerNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\NormalizerInterface;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\NullNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\ObjectNormalizer;
-use Vendi\VendiAlgoliaWordpressBase\Normalizers\ScalarNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\StringNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\UnitEnumNormalizer;
 
 class VendiObjectSerializer
@@ -38,7 +41,7 @@ class VendiObjectSerializer
         $attributes = [];
 
         foreach ($chain as $ref) {
-            $this->getAttributesFromReflectionClass($ref, $attributes);
+            $this->getAttributesFromReflectionClass($ref, $attributes, $obj);
         }
 
         $ret = $this->normalizeAttributes($attributes);
@@ -56,7 +59,10 @@ class VendiObjectSerializer
     {
         static $normalizers = [
             new NullNormalizer,
-            new ScalarNormalizer,
+            new BooleanNormalizer,
+            new IntegerNormalizer,
+            new FloatNormalizer,
+            new StringNormalizer,
             new BackedEnumNormalizer,
             new UnitEnumNormalizer,
             new ObjectNormalizer,
@@ -70,15 +76,14 @@ class VendiObjectSerializer
     {
         $ret = [];
         foreach ($attributes as $key => $value) {
-
             foreach ($this->getNormalizers() as $normalizer) {
                 if ($normalizer->supports($value)) {
                     $ret[$key] = $normalizer->normalize($value);
-                    continue;
+                    continue 2;
                 }
-
-                throw new RuntimeException('No normalizer found for value: '.get_debug_type($value));
             }
+
+            throw new RuntimeException('No normalizer found for value: '.get_debug_type($value));
         }
 
         return $ret;
@@ -100,7 +105,7 @@ class VendiObjectSerializer
     }
 
 
-    public function getAttributesFromReflectionClass(ReflectionClass $ref, &$attributes): void
+    public function getAttributesFromReflectionClass(ReflectionClass $ref, &$attributes, $obj): void
     {
         foreach ($ref->getProperties() as $prop) {
             if (!$serializeAttribute = $this->getSingleSerializeAttribute($prop)) {
@@ -122,9 +127,9 @@ class VendiObjectSerializer
                 /** @var SerializeFunctionAttribute $func */
                 $func = $func[0]->newInstance();
                 $funcName = $func->serializeFunction;
-                $attributes[$serializedName] = $this->$funcName($prop->getValue($this));
+                $attributes[$serializedName] = $obj->$funcName($prop->getValue($obj));
             } else {
-                $attributes[$serializedName] = $prop->getValue($this);
+                $attributes[$serializedName] = $prop->getValue($obj);
             }
         }
 
@@ -145,8 +150,7 @@ class VendiObjectSerializer
 
             $methodName = $method->getName();
 
-            // This should not work!
-            $attributes[$serializedName] = $method->$methodName();
+            $attributes[$serializedName] = $obj->$methodName();
         }
     }
 }
