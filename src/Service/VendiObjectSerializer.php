@@ -2,6 +2,7 @@
 
 namespace Vendi\VendiAlgoliaWordpressBase\Service;
 
+use BackedEnum;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
@@ -147,7 +148,7 @@ class VendiObjectSerializer
         }
 
         if ($serializeAttribute->serializationGroupName) {
-            return implode(BaseObject::ATTRIBUTE_DELIM, [$serializeAttribute->serializationGroupName, $serializeAttribute->serializationFieldName]);
+            return implode(BaseObject::ATTRIBUTE_DELIM, [$serializeAttribute->serializationGroupName instanceof BackedEnum ? $serializeAttribute->serializationGroupName->value : $serializeAttribute->serializationGroupName, $serializeAttribute->serializationFieldName]);
         }
 
         return $serializeAttribute->serializationFieldName;
