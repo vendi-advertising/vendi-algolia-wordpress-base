@@ -4,6 +4,9 @@ namespace Vendi\VendiAlgoliaWordpressBase\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
 use Vendi\VendiAlgoliaWordpressBase\Attribute\SerializeAttribute;
+use Vendi\VendiAlgoliaWordpressBase\Attribute\SerializeDateTimeAttribute;
+use Vendi\VendiAlgoliaWordpressBase\Attribute\SerializeFunctionAttribute;
+use Vendi\VendiAlgoliaWordpressBase\Enum\DateTimeSerializationFormatEnum;
 use Vendi\VendiAlgoliaWordpressBase\Service\VendiObjectSerializer;
 use Vendi\VendiAlgoliaWordpressBase\Tests\includes\MyBackedEnumForTesting;
 
@@ -11,7 +14,7 @@ class VendiObjectSerializerTest extends TestCase
 {
     public function testInheritance(): void
     {
-        // Dummy class to test inheritance
+        // Test double class to test inheritance
         $obj = new class(1) {
             public function __construct(
                 #[SerializeAttribute]
@@ -148,5 +151,26 @@ class VendiObjectSerializerTest extends TestCase
         };
 
         $this->assertSame(['a' => 1, 'b' => 'test'], (new VendiObjectSerializer)->getAttributes($obj));
+    }
+
+    public function testFunctionSerializer(): void
+    {
+        $obj = new class() {
+
+            #[SerializeAttribute]
+            #[SerializeFunctionAttribute('getA')]
+            public int $a = 5;
+
+            public function __construct()
+            {
+            }
+
+            public function getA(): string
+            {
+                return 'test2';
+            }
+        };
+
+        $this->assertSame(['a' => 'test2'], (new VendiObjectSerializer)->getAttributes($obj));
     }
 }

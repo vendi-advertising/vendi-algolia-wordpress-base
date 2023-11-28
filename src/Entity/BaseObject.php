@@ -3,6 +3,7 @@
 namespace Vendi\VendiAlgoliaWordpressBase\Entity;
 
 use JsonSerializable;
+use Vendi\VendiAlgoliaWordpressBase\Service\VendiObjectSerializer;
 
 abstract class BaseObject implements JsonSerializable
 {

@@ -5,18 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5d90885-5794-4886-a4de-d81ea230d9de" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/Normalizers/Normalizer__Supports__Test.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/phpunit.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Normalizers/ArrayNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/ArrayNormalizer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Normalizers/BackedEnumNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/BackedEnumNormalizer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Normalizers/NullNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/NullNormalizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Attribute/SerializeDateTimeAttribute.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/BaseObject.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/BaseObject.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Normalizers/ObjectNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/ObjectNormalizer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Normalizers/ScalarNormalizer.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Normalizers/UnitEnumNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizers/UnitEnumNormalizer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/VendiObjectSerializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/VendiObjectSerializer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Normalizers/NormalizerTest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Normalizers/Normalizer__Supports__Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Normalizers/Normalizer__Supports__Test.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Service/VendiObjectSerializerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Service/VendiObjectSerializerTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +162,9 @@
       <updated>1698422634303</updated>
       <workItem from="1698422635347" duration="676000" />
       <workItem from="1698423326053" duration="21056000" />
-      <workItem from="1698787521220" duration="330000" />
+      <workItem from="1698787521220" duration="948000" />
+      <workItem from="1701118616382" duration="4023000" />
+      <workItem from="1701183615174" duration="22000" />
     </task>
     <servers />
   </component>
