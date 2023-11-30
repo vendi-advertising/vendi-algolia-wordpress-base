@@ -2,17 +2,19 @@
 
 namespace Vendi\VendiAlgoliaWordpressBase\Entity;
 
+use Vendi\VendiAlgoliaWordpressBase\Attribute\SerializeAttribute;
+
 abstract class SerializableObjectWithId extends BaseObject
 {
     public function __construct(
         public int $id,
 
-        #[Serialize('objectType')]
+        #[SerializeAttribute('objectType')]
         public string $objectType,
     ) {
     }
 
-    #[Serialize('objectID')]
+    #[SerializeAttribute('objectID')]
     public function getObjectId(): string
     {
         return implode(self::ATTRIBUTE_DELIM, [$this->objectType, $this->id]);

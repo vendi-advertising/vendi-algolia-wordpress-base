@@ -37,7 +37,7 @@ class Normalizer__Supports__Test extends TestCase
 
     public static function dataForFloatNormalizer(): array
     {
-        return self::makeSupports(supportsFloat: true);
+        return self::makeSupports(supportsInteger: true, supportsFloat: true);
     }
 
     public static function dataForArrayNormalizer(): array
