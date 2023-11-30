@@ -2,6 +2,8 @@
 
 namespace Vendi\VendiAlgoliaWordpressBase\Service;
 
+use BackedEnum;
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -13,11 +15,12 @@ use Vendi\VendiAlgoliaWordpressBase\Entity\BaseObject;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\ArrayNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\BackedEnumNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\BooleanNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\DateTimeInterfaceNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\FloatNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\IntegerNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\JsonSerializableNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\NormalizerInterface;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\NullNormalizer;
-use Vendi\VendiAlgoliaWordpressBase\Normalizers\ObjectNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\StringNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\UnitEnumNormalizer;
 
@@ -65,7 +68,8 @@ class VendiObjectSerializer
             new StringNormalizer,
             new BackedEnumNormalizer,
             new UnitEnumNormalizer,
-            new ObjectNormalizer,
+            new DateTimeInterfaceNormalizer(),
+            new JsonSerializableNormalizer(),
             new ArrayNormalizer,
         ];
 
@@ -91,7 +95,7 @@ class VendiObjectSerializer
 
     private function getSingleSerializeAttribute(ReflectionProperty|ReflectionMethod $propertyOrMethod): ?SerializeAttribute
     {
-        $attr = $propertyOrMethod->getAttributes(SerializeAttribute::class);
+        $attr = $propertyOrMethod->getAttributes(SerializeAttribute::class, ReflectionAttribute::IS_INSTANCEOF);
 
         if (empty($attr)) {
             return null;
@@ -104,7 +108,6 @@ class VendiObjectSerializer
         return $attr[0]->newInstance();
     }
 
-
     public function getAttributesFromReflectionClass(ReflectionClass $ref, &$attributes, $obj): void
     {
         foreach ($ref->getProperties() as $prop) {
@@ -112,15 +115,7 @@ class VendiObjectSerializer
                 continue;
             }
 
-            if (!$serializeAttribute->serializationFieldName) {
-                $serializeAttribute->serializationFieldName = $prop->getName();
-            }
-
-            if ($serializeAttribute->serializationGroupName) {
-                $serializedName = implode(BaseObject::ATTRIBUTE_DELIM, [$serializeAttribute->serializationGroupName, $serializeAttribute->serializationFieldName]);
-            } else {
-                $serializedName = $serializeAttribute->serializationFieldName;
-            }
+            $serializedName = $this->getSerializedName($prop, $serializeAttribute);
 
             $func = $prop->getAttributes(SerializeFunctionAttribute::class);
             if (!empty($func)) {
@@ -138,19 +133,24 @@ class VendiObjectSerializer
                 continue;
             }
 
-            if (!$serializeAttribute->serializationFieldName) {
-                $serializeAttribute->serializationFieldName = $method->getName();
-            }
-
-            if ($serializeAttribute->serializationGroupName) {
-                $serializedName = implode(BaseObject::ATTRIBUTE_DELIM, [$serializeAttribute->serializationGroupName, $serializeAttribute->serializationFieldName]);
-            } else {
-                $serializedName = $serializeAttribute->serializationFieldName;
-            }
+            $serializedName = $this->getSerializedName($method, $serializeAttribute);
 
             $methodName = $method->getName();
 
             $attributes[$serializedName] = $obj->$methodName();
         }
+    }
+
+    private function getSerializedName(ReflectionProperty|ReflectionMethod $propertyOrMethod, SerializeAttribute $serializeAttribute): string
+    {
+        if (!$serializeAttribute->serializationFieldName) {
+            $serializeAttribute->serializationFieldName = $propertyOrMethod->getName();
+        }
+
+        if ($serializeAttribute->serializationGroupName) {
+            return implode(BaseObject::ATTRIBUTE_DELIM, [$serializeAttribute->serializationGroupName instanceof BackedEnum ? $serializeAttribute->serializationGroupName->value : $serializeAttribute->serializationGroupName, $serializeAttribute->serializationFieldName]);
+        }
+
+        return $serializeAttribute->serializationFieldName;
     }
 }

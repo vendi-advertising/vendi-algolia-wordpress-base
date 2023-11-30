@@ -5,14 +5,14 @@ namespace Vendi\VendiAlgoliaWordpressBase\Tests\Normalizers;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\ArrayNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\BackedEnumNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\BooleanNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\DateTimeInterfaceNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\FloatNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\IntegerNormalizer;
+use Vendi\VendiAlgoliaWordpressBase\Normalizers\JsonSerializableNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\NullNormalizer;
-use Vendi\VendiAlgoliaWordpressBase\Normalizers\ObjectNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\StringNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Normalizers\UnitEnumNormalizer;
 use Vendi\VendiAlgoliaWordpressBase\Tests\includes\MyBackedEnumForTesting;
@@ -45,9 +45,14 @@ class Normalizer__Supports__Test extends TestCase
         return self::makeSupports(supportsArray: true);
     }
 
-    public static function dataForObjectNormalizer(): array
+    public static function dateForDateTimeInterfaceNormalizer(): array
     {
-        return self::makeSupports(supportsObject: true);
+        return self::makeSupports(supportsDateTimeInterface: true);
+    }
+
+    public static function dataForJsonSerializableNormalizer(): array
+    {
+        return self::makeSupports(supportsJsonSerializable: true);
     }
 
     public static function dataForNullNormalizer(): array
@@ -68,69 +73,66 @@ class Normalizer__Supports__Test extends TestCase
     #[DataProvider('dataForArrayNormalizer')]
     public function testArrayNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new ArrayNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new ArrayNormalizer())->supports($type));
     }
 
     #[DataProvider('dataForNullNormalizer')]
     public function testNullNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new NullNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
-    }
-
-    #[DataProvider('dataForObjectNormalizer')]
-    public function testObjectNormalizer(bool $supports, mixed $type): void
-    {
-        $normalizer = new ObjectNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new NullNormalizer())->supports($type));
     }
 
     #[DataProvider('dataForStringNormalizer')]
     public function testStringNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new StringNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new StringNormalizer())->supports($type));
     }
 
     #[DataProvider('dataForIntegerNormalizer')]
     public function testIntegerNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new IntegerNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new IntegerNormalizer())->supports($type));
     }
 
     #[DataProvider('dataForFloatNormalizer')]
     public function testFloatNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new FloatNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new FloatNormalizer())->supports($type));
     }
 
     #[DataProvider('dataForBooleanNormalizer')]
     public function testBooleanNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new BooleanNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new BooleanNormalizer())->supports($type));
     }
 
     #[DataProvider('dataForBackedEnumNormalizer')]
     public function testBackedEnumNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new BackedEnumNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new BackedEnumNormalizer())->supports($type));
     }
 
     #[DataProvider('dataForUnitEnumNormalizer')]
     public function testUnitEnumNormalizer(bool $supports, mixed $type): void
     {
-        $normalizer = new UnitEnumNormalizer();
-        $this->assertSame($supports, $normalizer->supports($type));
+        $this->assertSame($supports, (new UnitEnumNormalizer())->supports($type));
     }
+
+    #[DataProvider('dateForDateTimeInterfaceNormalizer')]
+    public function testDateTimeInterfaceNormalizer(bool $supports, mixed $type): void
+    {
+        $this->assertSame($supports, (new DateTimeInterfaceNormalizer())->supports($type));
+    }
+
+    #[DataProvider('dataForJsonSerializableNormalizer')]
+    public function testJsonSerializableNormalizer(bool $supports, mixed $type): void
+    {
+        $this->assertSame($supports, (new JsonSerializableNormalizer())->supports($type));
+    }
+
 
     private static function makeSupports(
         bool $supportsBoolean = false,
-        bool $supportsObject = false,
         bool $supportsString = false,
         bool $supportsInteger = false,
         bool $supportsFloat = false,
@@ -138,6 +140,8 @@ class Normalizer__Supports__Test extends TestCase
         bool $supportsArray = false,
         bool $supportsBackedEnum = false,
         bool $supportsUnitEnum = false,
+        bool $supportsDateTimeInterface = false,
+        bool $supportsJsonSerializable = false,
     ): array {
         return [
             'Null' => [$supportsNull, null],
@@ -145,8 +149,17 @@ class Normalizer__Supports__Test extends TestCase
             'Int' => [$supportsInteger, 1],
             'Float' => [$supportsFloat, 1.1],
             'String' => [$supportsString, ''],
-            'stdClass' => [$supportsObject, new stdClass()],
-            'DateTimeImmutable' => [$supportsObject, new DateTimeImmutable()],
+            'DateTimeInterface' => [$supportsDateTimeInterface, new \DateTime()],
+            'JsonSerializable' => [
+                $supportsJsonSerializable,
+                new class implements \JsonSerializable {
+                    public function jsonSerialize(): array
+                    {
+                        return [];
+                    }
+                },
+            ],
+            'DateTimeImmutable' => [$supportsDateTimeInterface, new DateTimeImmutable()],
             'BackedEnum' => [$supportsBackedEnum, MyBackedEnumForTesting::FOO],
             'UnitEnum' => [$supportsUnitEnum, MyNonBackedEnumForTesting::FOO],
             'Array' => [$supportsArray, []],
