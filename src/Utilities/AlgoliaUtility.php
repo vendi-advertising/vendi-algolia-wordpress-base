@@ -112,7 +112,7 @@ class AlgoliaUtility extends UtilityBase
      * @throws JsonException
      * @throws MissingEnvironmentVariableException
      */
-    private function convertObjectToJson(BaseObject $obj): ?array
+    protected function convertObjectToJson(BaseObject $obj): ?array
     {
         $encoded = $this->encodeJson($obj);
 
