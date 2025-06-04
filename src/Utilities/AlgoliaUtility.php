@@ -14,10 +14,49 @@ use WP_Post;
 
 abstract class AlgoliaUtility extends UtilityBase
 {
+    abstract protected function objectBuildContent($page): ?string;
+
+    public function getAlgoliaCPTSlugsForIndexing(): array
+    {
+        return ['page'];
+    }
+
     protected function assignEntityUrl(WP_Post $page): ?string
     {
-        //Default to the post URL
         return get_permalink($page);
+    }
+
+    protected function createCommonWpPostFromObject(WP_Post $post): CommonWpPost
+    {
+        return new CommonWpPost($post->ID, $post->post_type);
+    }
+
+    protected function setCommonWpPostProperties(CommonWpPost $obj, WP_Post $post): void
+    {
+        $obj->title = $post->post_title;
+
+        $obj->entityUrl    = $this->assignEntityUrl($post);
+        $obj->dateCreated  = new DateTimeImmutable($post->post_date);
+        $obj->dateModified = new DateTimeImmutable($post->post_modified);
+
+        $obj->taxonomies = [];
+
+        if ($url = get_the_post_thumbnail_url($post)) {
+            $obj->imageUrl = $url;
+            if ($attachmentId = get_post_thumbnail_id($post)) {
+                $obj->imageAlt = get_post_meta($attachmentId, '_wp_attachment_image_alt', true);
+            }
+        }
+    }
+
+    protected function isCommonWpPostValid(CommonWpPost $obj): bool
+    {
+        //assignEntityUrl() can return null. If it does, don't index the post
+        if ( ! $obj->entityUrl) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function objectBuildStart($page): ?object
@@ -30,29 +69,13 @@ abstract class AlgoliaUtility extends UtilityBase
             return null;
         }
 
-        $obj = new CommonWpPost($page->ID, $page->post_type);
+        $obj = $this->createCommonWpPostFromObject($page);
+        $this->setCommonWpPostProperties($obj, $page);
 
-        $obj->title = $page->post_title;
-
-        $obj->entityUrl  = $this->assignEntityUrl($page);
-        $obj->taxonomies = [];
-
-
-        //assignEntityUrl() can return null. If it does, don't index the post
-        if ( ! $obj->entityUrl) {
+        if ( ! $this->isCommonWpPostValid($obj)) {
             return null;
         }
 
-        $obj->dateCreated  = new DateTimeImmutable($page->post_date);
-        $obj->dateModified = new DateTimeImmutable($page->post_modified);
-
-
-        if ($url = get_the_post_thumbnail_url($page)) {
-            $obj->imageUrl = $url;
-            if ($attachmentId = get_post_thumbnail_id($page)) {
-                $obj->imageAlt = get_post_meta($attachmentId, '_wp_attachment_image_alt', true);
-            }
-        }
 
         return $obj;
     }
@@ -178,5 +201,65 @@ abstract class AlgoliaUtility extends UtilityBase
         return json_decode($encoded, true, 512, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @throws MissingEnvironmentVariableException
+     * @throws Exception
+     */
+    public function removePostFromAlgolia(WP_Post $post, bool $isWpCli = false): void
+    {
+        $client  = $this->getAlgoliaClient();
+        $objects = $this->convertPostToJsonObjectForAlgolia($post, isWpCli: $isWpCli);
 
+        foreach ($objects as $object) {
+            try {
+                $client->deleteObject($this->getAlgoliaIndexName(), $object['objectID']);
+            } catch (Exception $e) {
+                // Do nothing
+            }
+        }
+    }
+
+    /**
+     * @throws MissingEnvironmentVariableException
+     * @throws Exception
+     */
+    public function indexSinglePost(WP_Post $post, bool $isWpCli = false): void
+    {
+        $entitySlugsThatShouldBeIndexed = $this->getAlgoliaCPTSlugsForIndexing();
+
+        if ( ! in_array($post->post_type, $entitySlugsThatShouldBeIndexed, true)) {
+            return;
+        }
+
+        $client  = $this->getAlgoliaClient();
+        $objects = $this->convertPostToJsonObjectForAlgolia($post, isWpCli: $isWpCli);
+        try {
+            foreach ($objects as $object) {
+                $client->saveObject($this->getAlgoliaIndexName(), $object);
+            }
+        } catch (Exception $e) {
+            // Do nothing
+        }
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    public function convertPostToJsonObjectForAlgolia($page, bool $isWpCli = false): array|null
+    {
+        $obj = $this->objectBuildStart($page);
+
+        if ( ! $obj) {
+            return null;
+        }
+
+        //Page content
+
+        $ret          = $this->objectBuildContent($page);
+        $obj->content = $this->stripAllHtmlFromText($ret) ?? null;
+
+        //This returns an array no matter what
+        return $this->maybeSplitObjectIntoMultipleRecords($obj, $page);
+    }
 }
