@@ -9,8 +9,45 @@ use Vendi\VendiAlgoliaWordpressBase\AlgoliaEnvironmentVariables;
 use Vendi\VendiAlgoliaWordpressBase\Entity\BaseObject;
 use Vendi\VendiAlgoliaWordpressBase\Exception\MissingEnvironmentVariableException;
 
-class AlgoliaUtility extends UtilityBase
+abstract class AlgoliaUtility extends UtilityBase
 {
+    public function objectBuildStart($page): ?object
+    {
+        if ( ! $page instanceof WP_Post) {
+            throw new Exception('Expected WP_Post');
+        }
+
+        if ( ! $page->post_title) {
+            return null;
+        }
+
+        $obj = new CommonWpPost($page->ID, $page->post_type);
+
+        $obj->title = $page->post_title;
+
+        $obj->entityUrl  = $this->assignEntityUrl($page);
+        $obj->taxonomies = [];
+
+
+        //assignEntityUrl() can return null. If it does, don't index the post
+        if ( ! $obj->entityUrl) {
+            return null;
+        }
+
+        $obj->dateCreated  = new DateTimeImmutable($page->post_date);
+        $obj->dateModified = new DateTimeImmutable($page->post_modified);
+
+
+        if ($url = get_the_post_thumbnail_url($page)) {
+            $obj->imageUrl = $url;
+            if ($attachmentId = get_post_thumbnail_id($page)) {
+                $obj->imageAlt = get_post_meta($attachmentId, '_wp_attachment_image_alt', true);
+            }
+        }
+
+        return $obj;
+    }
+    
     public function getAlgoliaClient(): SearchClient
     {
         return SearchClient::create(
