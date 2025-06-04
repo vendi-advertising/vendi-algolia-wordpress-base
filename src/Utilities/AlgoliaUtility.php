@@ -3,15 +3,24 @@
 namespace Vendi\VendiAlgoliaWordpressBase\Utilities;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
+use DateTimeImmutable;
 use Exception;
 use JsonException;
 use Vendi\VendiAlgoliaWordpressBase\AlgoliaEnvironmentVariables;
 use Vendi\VendiAlgoliaWordpressBase\Entity\BaseObject;
+use Vendi\VendiAlgoliaWordpressBase\Entity\CommonWpPost;
 use Vendi\VendiAlgoliaWordpressBase\Exception\MissingEnvironmentVariableException;
+use WP_Post;
 
 abstract class AlgoliaUtility extends UtilityBase
 {
-    public function objectBuildStart($page): ?object
+    protected function assignEntityUrl(WP_Post $page): ?string
+    {
+        //Default to the post URL
+        return get_permalink($page);
+    }
+
+    protected function objectBuildStart($page): ?object
     {
         if ( ! $page instanceof WP_Post) {
             throw new Exception('Expected WP_Post');
@@ -47,7 +56,10 @@ abstract class AlgoliaUtility extends UtilityBase
 
         return $obj;
     }
-    
+
+    /**
+     * @throws MissingEnvironmentVariableException
+     */
     public function getAlgoliaClient(): SearchClient
     {
         return SearchClient::create(
@@ -56,6 +68,9 @@ abstract class AlgoliaUtility extends UtilityBase
         );
     }
 
+    /**
+     * @throws MissingEnvironmentVariableException
+     */
     public function getAlgoliaIndexName(): string
     {
         return implode('_', [AlgoliaEnvironmentVariables::getIndexNameEnv(), AlgoliaEnvironmentVariables::getIndexName()]);
@@ -63,8 +78,7 @@ abstract class AlgoliaUtility extends UtilityBase
 
     protected function stripAllHtmlFromText(?string $text): ?string
     {
-
-        if (!$text) {
+        if ( ! $text) {
             return null;
         }
 
@@ -89,7 +103,7 @@ abstract class AlgoliaUtility extends UtilityBase
 
     protected function splitStringByMaxLength($string, $maxLength = 80000, $encoding = 'UTF-8'): array
     {
-        $result = [];
+        $result    = [];
         $strLength = mb_strlen($string, $encoding);
 
         for ($i = 0; $i < $strLength; $i += $maxLength) {
@@ -102,8 +116,7 @@ abstract class AlgoliaUtility extends UtilityBase
     /**
      * @throws JsonException
      */
-    protected
-    function encodeJson($obj): string
+    protected function encodeJson($obj): string
     {
         return json_encode($obj, JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_IGNORE);
     }
@@ -113,26 +126,32 @@ abstract class AlgoliaUtility extends UtilityBase
      */
     protected function maybeSplitObjectIntoMultipleRecords($obj, $page): array
     {
-
         $objArray = [];
-        $size = mb_strlen(json_encode($obj));
+        $size     = mb_strlen(json_encode($obj));
 
         //Algolia has a max record size of 100KB. If the content is larger than 95KB, split it into multiple records
         //Make sure the index configuration in the Algolia dashboard has the "distinct" and "attributesForDistinct" properties set to avoid duplicate results
         //attributesForDistinct should be set to "entityUrl".
         if ($size > 92000) {
-            $splitObjArray = $this->splitStringByMaxLength($obj->content, 80000);
-            $idx = 0;
+            $splitObjArray = $this->splitStringByMaxLength($obj->content);
+            $idx           = 0;
             foreach ($splitObjArray as $splitObjContent) {
-                $newObj = $this->objectBuildStart($page);
+                if ( ! $newObj = $this->objectBuildStart($page)) {
+                    if (class_exists(\WP_CLI::class)) {
+                        \WP_CLI::warning('Skipping object build start for ' . $page->ID);
+                    }
+                    continue;
+                }
 
 
-                $newObj->id = $newObj->id . '-' . $idx;
+                $newObj->id      .= '-' . $idx;
                 $newObj->content = $splitObjContent;
 
 
                 $message = 'Splitting content for ' . $page->post_title . ' into ' . count($splitObjArray) . ' parts';
-                WP_CLI::line($message);
+                if (class_exists(\WP_CLI::class)) {
+                    \WP_CLI::line($message);
+                }
 
                 $objArray[] = $this->convertObjectToJson($newObj);
                 $idx++;
@@ -142,7 +161,6 @@ abstract class AlgoliaUtility extends UtilityBase
         }
 
         return $objArray;
-
     }
 
     /**
