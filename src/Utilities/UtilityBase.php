@@ -38,23 +38,4 @@ abstract class UtilityBase
     {
         //NOOP
     }
-
-    protected function getTransientValue(string $key, int $expiration, callable $callback): mixed
-    {
-        if (strlen($key) > 172) {
-            throw new InvalidArgumentException("Transient key must be less than 172 characters: $key");
-        }
-
-        if (false === ($value = get_transient($key))) {
-            $value = $callback();
-
-            if (is_bool($value)) {
-                trigger_error("Callback returned a boolean which should not be stored in a transient.", E_USER_WARNING);
-            } else {
-                set_transient($key, $value, $expiration);
-            }
-        }
-
-        return $value;
-    }
 }

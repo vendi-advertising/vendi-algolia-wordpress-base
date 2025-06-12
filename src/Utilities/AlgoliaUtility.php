@@ -12,9 +12,41 @@ use Vendi\VendiAlgoliaWordpressBase\Entity\CommonWpPost;
 use Vendi\VendiAlgoliaWordpressBase\Exception\MissingEnvironmentVariableException;
 use WP_Post;
 
-abstract class AlgoliaUtility extends UtilityBase
+use function get_permalink;
+use function get_post_meta;
+use function get_post_thumbnail_id;
+use function get_the_post_thumbnail_url;
+
+class AlgoliaUtility
 {
-    abstract protected function objectBuildContent($page): ?string;
+    protected static AlgoliaUtility|null $instance = null;
+
+    protected function objectBuildContent($page): ?string
+    {
+        return 'You must implement the objectBuildContent() method in your subclass.';
+    }
+
+    private function __construct()
+    {
+        // NOOP
+    }
+
+    /**
+     * Normally we'd use DI for this, but to keep things simpler
+     * we'll just use a singleton.
+     *
+     * @return static
+     * @throws MissingEnvironmentVariableException
+     */
+    final public static function getInstance(): self
+    {
+        if ( ! self::$instance) {
+            $className      = AlgoliaEnvironmentVariables::getAlgoliaUtilityClassName();
+            self::$instance = new $className;
+        }
+
+        return self::$instance;
+    }
 
     public function getAlgoliaCPTSlugsForIndexing(): array
     {
@@ -155,7 +187,7 @@ abstract class AlgoliaUtility extends UtilityBase
         //Algolia has a max record size of 100KB. If the content is larger than 95KB, split it into multiple records
         //Make sure the index configuration in the Algolia dashboard has the "distinct" and "attributesForDistinct" properties set to avoid duplicate results
         //attributesForDistinct should be set to "entityUrl".
-        if ($size > 92000) {
+        if ($size > AlgoliaEnvironmentVariables::getMaxRecordSizeInBytes()) {
             $splitObjArray = $this->splitStringByMaxLength($obj->content);
             $idx           = 0;
             foreach ($splitObjArray as $splitObjContent) {

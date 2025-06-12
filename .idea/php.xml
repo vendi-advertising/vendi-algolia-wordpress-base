@@ -70,9 +70,63 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/algolia/algoliasearch-client-php" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/react/promise" />
+      <path value="$PROJECT_DIR$/vendor/mck89/peast" />
+      <path value="$PROJECT_DIR$/vendor/eftec/bladeone" />
+      <path value="$PROJECT_DIR$/vendor/nb/oxymel" />
+      <path value="$PROJECT_DIR$/vendor/marc-mabe/php-enum" />
+      <path value="$PROJECT_DIR$/vendor/gettext/gettext" />
+      <path value="$PROJECT_DIR$/vendor/gettext/languages" />
+      <path value="$PROJECT_DIR$/vendor/justinrainbow/json-schema" />
+      <path value="$PROJECT_DIR$/vendor/seld/phar-utils" />
+      <path value="$PROJECT_DIR$/vendor/seld/jsonlint" />
+      <path value="$PROJECT_DIR$/vendor/seld/signal-handler" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/maintenance-mode-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/extension-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/super-admin-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/shell-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/db-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/process" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/entity-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/language-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/rewrite-command" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/scaffold-command" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/wp-cli-bundle" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/embed-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/eval-command" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/mustangostang-spyc" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/cron-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/widget-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/media-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/package-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/import-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/config-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/search-replace-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/wp-cli" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/export-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/cache-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/checksum-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/role-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/server-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/i18n-command" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/mustache" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/wp-config-transformer" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/php-cli-tools" />
+      <path value="$PROJECT_DIR$/vendor/wp-cli/core-command" />
+      <path value="$PROJECT_DIR$/vendor/php-stubs/wordpress-stubs" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
