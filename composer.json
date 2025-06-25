@@ -8,7 +8,9 @@
     }
   },
   "autoload-dev": {
-    "psr-4": { "Vendi\\VendiAlgoliaWordpressBase\\Tests\\": "tests/" }
+    "psr-4": {
+      "Vendi\\VendiAlgoliaWordpressBase\\Tests\\": "tests/"
+    }
   },
   "authors": [
     {

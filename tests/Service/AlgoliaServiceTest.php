@@ -2,34 +2,25 @@
 
 namespace Vendi\VendiAlgoliaWordpressBase\Tests\Service;
 
+use Algolia\AlgoliaSearch\Model\Search\SaveObjectResponse;
 use Algolia\AlgoliaSearch\Response\BatchIndexingResponse;
 use Algolia\AlgoliaSearch\SearchClient;
 use Algolia\AlgoliaSearch\SearchIndex;
-use Vendi\VendiAlgoliaWordpressBase\Service\AlgoliaService;
 use PHPUnit\Framework\TestCase;
+use Vendi\VendiAlgoliaWordpressBase\Utilities\AlgoliaUtility;
 
 class AlgoliaServiceTest extends TestCase
 {
-    public function testSearchClientReturned(){
-        $algoliaService = new AlgoliaService();
-        $this->assertInstanceOf(SearchClient::class, $algoliaService->getSearchClient());
-    }
-
-    public function testSearchIndexReturned(){
-        $algoliaService = new AlgoliaService();
-        $this->assertInstanceOf(SearchIndex::class, $algoliaService->getAlgoliaIndex());
-    }
-
-    public function testSendSomethingToAlgolia(){
+    public function testSendSomethingToAlgolia()
+    {
+        $indexName    = AlgoliaUtility::getInstance()->getAlgoliaIndexName();
         $randomString = bin2hex(random_bytes(10));
-        $algoliaService = new AlgoliaService();
-        $result = $algoliaService->addObjectToIndex(['objectID' => '1234', 'test' => 'potato', 'random' => $randomString]);
-        $this->assertInstanceOf(BatchIndexingResponse::class, $result);
+        $result       = AlgoliaUtility::getInstance()->getAlgoliaClient()->saveObject($indexName, ['objectID' => '1234', 'test' => 'potato', 'random' => $randomString]);
+        $this->assertInstanceOf(SaveObjectResponse::class, $result);
         sleep(1);
-        $objectFromAlgolia = $algoliaService->getAlgoliaIndex()->getObject('1234');
+        $objectFromAlgolia = AlgoliaUtility::getInstance()->getAlgoliaClient()->getObject($indexName, '1234');
         $this->assertIsArray($objectFromAlgolia);
         $this->assertArrayHasKey('random', $objectFromAlgolia);
         $this->assertSame($randomString, $objectFromAlgolia['random']);
     }
-
 }

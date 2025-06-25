@@ -3,6 +3,7 @@
 namespace Vendi\VendiAlgoliaWordpressBase\Utilities;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
+use Algolia\AlgoliaSearch\Model\Search\SaveObjectResponse;
 use DateTimeImmutable;
 use Exception;
 use JsonException;
